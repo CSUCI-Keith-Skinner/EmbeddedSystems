@@ -1,0 +1,17 @@
+Dependencies for Project 'Lab2', Target 'Lab2': (DO NOT MODIFY !)
+F (.\startup.s)(0x519AECF4)(--cpu Cortex-M4 --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Lab2-IC:\Keil_v5\PACKS\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Keil_v5\PACKS\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123--pd "__UVISION_VERSION SETA 528" --pd "_RTE_ SETA 1" --pd "TM4C123GH6PM SETA 1"--list .\startup.lst --xref -o .\startup.o --depend .\startup.d)
+F (.\main.c)(0x5C424ADE)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I .. -I ..\..\.. --C99-I.\RTE\_Lab2-IC:\Keil_v5\PACKS\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Keil_v5\PACKS\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-D__UVISION_VERSION="528" -D_RTE_ -DTM4C123GH6PM -Drvmdk -DPART_LM4F120H5QR-o .\main.o --omf_browse .\main.crf --depend .\main.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEC4CD2)
+I (UART.h)(0x5B7EFC02)
+I (PLL.h)(0x5B7DE02E)
+I (Lab2.h)(0x5B7F47D6)
+F (.\PLL.c)(0x5B7DE02E)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I .. -I ..\..\.. --C99-I.\RTE\_Lab2-IC:\Keil_v5\PACKS\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Keil_v5\PACKS\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-D__UVISION_VERSION="528" -D_RTE_ -DTM4C123GH6PM -Drvmdk -DPART_LM4F120H5QR-o .\pll.o --omf_browse .\pll.crf --depend .\pll.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEC4CD2)
+I (PLL.h)(0x5B7DE02E)
+I (../inc/tm4c123gh6pm.h)(0x5388D0EA)
+F (.\UART.c)(0x5B7EFC02)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I .. -I ..\..\.. --C99-I.\RTE\_Lab2-IC:\Keil_v5\PACKS\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Keil_v5\PACKS\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-D__UVISION_VERSION="528" -D_RTE_ -DTM4C123GH6PM -Drvmdk -DPART_LM4F120H5QR-o .\uart.o --omf_browse .\uart.crf --depend .\uart.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEC4CD2)
+I (UART.h)(0x5B7EFC02)
+I (../inc/tm4c123gh6pm.h)(0x5388D0EA)
+F (.\Lab2.c)(0x5D83AC5B)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I .. -I ..\..\.. --C99-I.\RTE\_Lab2-IC:\Keil_v5\PACKS\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Keil_v5\PACKS\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-D__UVISION_VERSION="528" -D_RTE_ -DTM4C123GH6PM -Drvmdk -DPART_LM4F120H5QR-o .\lab2.o --omf_browse .\lab2.crf --depend .\lab2.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEC4CD2)

@@ -79,20 +79,23 @@ Start
 loop  
     ; main engine goes here
     BL delay
-    
-    LDR  R1, =GPIO_PORTE_DATA_R
-    LDR  R0, [R1]
-    EOR  R0, R0, #0x08
-    STR  R0, [R1]
+    BL flip_PE3
     B    loop
     
 delay
     MOV  R1, #0x4C                  ; Move high half of Dword into R1
     MOV  R0, #0x4B40                ; Move low half of Dword into R0
     ADD  R0, R0, R1, LSL #0x10      ; Merge the two
-wait
+delay_wait
     SUBS R0, R0, #0x01              ; (1 cycle)
-    BNE  wait                       ; (3 cycles)
+    BNE  delay_wait                       ; (3 cycles)
+    BX   LR                         ; return
+    
+flip_PE3
+    LDR  R1, =GPIO_PORTE_DATA_R     ; Grab the address for the DATA register for Port E
+    LDR  R0, [R1]                   ; Grab the value currently held by the DATA register for Port E
+    EOR  R0, R0, #0x08              ; Flip the 4th bit for LED
+    STR  R0, [R1]                   ; Store the new data value
     BX   LR                         ; return
     
 

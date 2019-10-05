@@ -1,16 +1,16 @@
 ;****************** main.s ***************
 ; Program written by: Keith Skinner
 ; Date Created: 2/4/2017
-; Last Modified: 9/26/2019
+; Last Modified: 9/2/2019
 ; Brief description of the program
 ;   The LED toggles at 2 Hz and a varying duty-cycle
 ; Hardware connections (External: One button and one LED)
-;  PE2 is Button input  (1 means pressed, 0 means not pressed)
-;  PE3 is LED output (1 activates external LED on protoboard)
+;  PE1 is Button input  (1 means pressed, 0 means not pressed)
+;  PE2 is LED output (1 activates external LED on protoboard)
 ;  PF4 is builtin button SW1 on Launchpad (Internal) 
 ;        Negative Logic (0 means pressed, 1 means not pressed)
 ; Overall functionality of this system is to operate like this
-;   1) Make PE3 an output and make PE2 and PF4 inputs.
+;   1) Make PE2 an output and make PE1 and PF4 inputs.
 ;   2) The system starts with the the LED toggling at 2Hz,
 ;      which is 2 times per second with a duty-cycle of 30%.
 ;      Therefore, the LED is ON for 150ms and off for 350 ms.
@@ -42,60 +42,60 @@ GPIO_PORTF_CR_R    EQU 0x40025524
 GPIO_LOCK_KEY      EQU 0x4C4F434B  ; Unlocks the GPIO_CR register
 SYSCTL_RCGCGPIO_R  EQU 0x400FE608
 
-KEITH_10_DC1 EQU 0x007A
-KEITH_10_DC2 EQU 0x1200
-
-
     IMPORT  TExaS_Init
     THUMB
     AREA    DATA, ALIGN=2
-;global variables go here
-	
+    ;global variables go here
+
 
     AREA    |.text|, CODE, READONLY, ALIGN=2
     THUMB
     EXPORT  Start
 Start
-; TExaS_Init sets bus clock at 80 MHz
+    ; TExaS_Init sets bus clock at 80 MHz
     BL  TExaS_Init ; voltmeter, scope on PD3
-; Initialization goes here
-	
-	; Make PE3 an output and make PE2 and PF4 inputs.
-	; Activate clock for port E
-	LDR R1, =SYSCTL_RCGCGPIO_R		; Grab clock location
-	LDR R0, [R1]					; Grab clock value
-	MOV R0, #0x10				    ; Bit 5 is for Port E
-	STR R0, [R1]					; Store clock values turning on E
-	NOP								; Wait part1
-	NOP								; Wait part2
-	
-	; Set up direction register
-	LDR R1, =GPIO_PORTE_DIR_R		; load port e configuration location
-	MOV R0, #0x8				    ; set pin PE3 as output
-	STR R0, [R1]					; Store configuration
-	; Enable Port E digital port
-	LDR R1, =GPIO_PORTE_DEN_R		; load port e configuration
-	MOV R0, #0x8					; Make pin PE3 digital
-	STR R0, [R1]					; Store configuration
-	
+    ; Initialization goes here
+    
+    ; Begin Keith Section
+    ; Turn on clock for port E
+    LDR  R1, =SYSCTL_RCGCGPIO_R     ; Grab clock location
+	LDR  R0, [R1]                   ; Grab clock value
+	MOV  R0, #0x10                  ; Bit 5 is for Port E
+	STR  R0, [R1]                   ; Store clock values turning on E
+	NOP                             ; Wait part1
+	NOP                             ; Wait part2
+    ; Set PE3 as output
+    LDR  R1, =GPIO_PORTE_DIR_R      ; Grab direction location
+    LDR  R0, [R1]                   ; Grab direction value
+	MOV  R0, #0x8                   ; PE3 as output
+	STR  R0, [R1]                   ; Store configuration
+    ; Set PE3 as digital
+    LDR  R1, =GPIO_PORTE_DEN_R      ; Grab enable register address
+    LDR  R0, [R1]                   ; Grab enable register's value
+    MOV  R0, #0x8                   ; Set PE3 Pin as enabled
+    STR  R0, [R1]                   ; Set enable register as new value
+    
     CPSIE  I    ; TExaS voltmeter, scope runs on interrupts
 loop  
-; main engine goes here
-	MOV R0, #0x007A
-	LSL R0, #16
-	ADD R0, R0, #0x1200
-wait
-	SUBS R0, R0, #1
-	BNE wait
-	
-	;Write out to the LED
-	EOR R1, R1, #0x8
-	; Write R0 out to PORTE
-	LDR R2, =GPIO_PORTE_DATA_R		; Pointer to Port E data
-	STR R1, [R2]					; Write all of R0 out to Port E
-   
+    ; main engine goes here
+    BL delay
+    
+    LDR  R1, =GPIO_PORTE_DATA_R
+    LDR  R0, [R1]
+    EOR  R0, R0, #0x08
+    STR  R0, [R1]
     B    loop
-	
+    
+delay
+    MOV  R1, #0x4C                  ; Move high half of Dword into R1
+    MOV  R0, #0x4B40                ; Move low half of Dword into R0
+    ADD  R0, R0, R1, LSL #0x10      ; Merge the two
+wait
+    SUBS R0, R0, #0x01              ; (1 cycle)
+    BNE  wait                       ; (3 cycles)
+    BX   LR                         ; return
+    
+
     ALIGN      ; make sure the end of this section is aligned
-	END        ; end of file
+    END        ; end of file
 

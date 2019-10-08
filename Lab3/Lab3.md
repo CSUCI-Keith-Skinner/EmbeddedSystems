@@ -1,8 +1,8 @@
 # Lab 3 / 4
 
-![Logical Analyzer](4FlipsPerSec.PNG)
-
 ## Step 1
+
+![Logical Analyzer](4FlipsPerSec.PNG)
 
 Setup 
 

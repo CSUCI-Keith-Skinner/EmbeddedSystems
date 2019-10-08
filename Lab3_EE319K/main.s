@@ -24,11 +24,16 @@ SYSCTL_RCGCGPIO_R  EQU 0x400FE608
 ;LAB3_STEP_1_50_PERC  EQU  5000000
 ;LAB3_STEP_2_30_PERC  EQU  3000000
 ;LAB3_STEP_2_70_PERC  EQU  7000000
+;LAB3_STEP_3_30_PERC  EQU  3000000
+;LAB3_STEP_3_20_PERC  EQU  2000000
+;LAB3_STEP_3_100_PERC EQU 10000000
 
 ; Lab constants for current step
-LAB3_STEP_3_30_PERC  EQU  3000000
-LAB3_STEP_3_20_PERC  EQU  2000000
-LAB3_STEP_3_100_PERC EQU 10000000
+LAB3_STEP_5_100_PERC EQU 400000
+LAB3_STEP_5_1_PERC   EQU   4000 
+SW1       EQU 0x10                 ; on the left side of the Launchpad board
+SW2       EQU 0x01                 ; on the right side of the Launchpad board    
+
 
     IMPORT  TExaS_Init
     THUMB
@@ -45,7 +50,7 @@ setup
     ; Turn on clock for port E
     LDR  R1, =SYSCTL_RCGCGPIO_R     ; Grab clock location
 	LDR  R0, [R1]                   ; Grab clock value
-	ORR  R0, #0x10                  ; Bit 5 is for Port E
+	ORR  R0, #0x30                  ; Bit 5 is for Port E Bit 6 is for Port F
 	STR  R0, [R1]                   ; Store clock values turning on E
 	NOP                             ; Wait part1
 	NOP                             ; Wait part2
@@ -53,31 +58,78 @@ setup
     LDR  R1, =GPIO_PORTE_DIR_R      ; Grab direction location
     LDR  R0, [R1]                   ; Grab direction value
 	ORR  R0, #0x8                   ; PE3 as output
-    AND  R0, #0xFFFFFFFB            ; PE2 as input
 	STR  R0, [R1]                   ; Store configuration
     ; Set PE3 as digital
     LDR  R1, =GPIO_PORTE_DEN_R      ; Grab enable register address
     LDR  R0, [R1]                   ; Grab enable register's value
-    ORR  R0, #0xC                   ; Set PE3 and PE2 Pin as enabled
+    ORR  R0, R0, #0x8               ; Set PE3 as enabled
     STR  R0, [R1]                   ; Set enable register as new value
+    
+    ;~~~~~~~~Taken from "http://users.ece.utexas.edu/~valvano/arm/Switch_4C123asm.zip"~~~~~~~~~
+    ; unlock the lock register
+    LDR R1, =GPIO_PORTF_LOCK_R      ; R1 = &GPIO_PORTF_LOCK_R
+    LDR R0, =GPIO_LOCK_KEY          ; R0 = GPIO_LOCK_KEY (unlock GPIO Port F Commit Register)
+    STR R0, [R1]                    ; [R1] = R0 = 0x4C4F434B
+    ; set commit register
+    LDR R1, =GPIO_PORTF_CR_R        ; R1 = &GPIO_PORTF_CR_R
+    MOV R0, #0xFF                   ; R0 = 0x01 (enable commit for PF0)
+    STR R0, [R1]                    ; [R1] = R0 = 0x1
+    ; set direction register
+    LDR R1, =GPIO_PORTF_DIR_R       ; R1 = &GPIO_PORTF_DIR_R
+    LDR R0, [R1]                    ; R0 = [R1]
+    BIC R0, R0, #(SW1+SW2)          ; R0 = R0&~(SW1|SW2) (make PF0 and PF4 input; PF0 and PF4 built-in buttons)
+    STR R0, [R1]                    ; [R1] = R0
+    ; regular port function
+    LDR R1, =GPIO_PORTF_AFSEL_R     ; R1 = &GPIO_PORTF_AFSEL_R
+    LDR R0, [R1]                    ; R0 = [R1]
+    BIC R0, R0, #(SW1+SW2)          ; R0 = R0&~(SW1|SW2) (disable alt funct on PF0 and PF4)
+    STR R0, [R1]                    ; [R1] = R0
+    ; put a delay here if you are seeing erroneous NMI
+    ; enable pull-up resistors
+    LDR R1, =GPIO_PORTF_PUR_R       ; R1 = &GPIO_PORTF_PUR_R
+    LDR R0, [R1]                    ; R0 = [R1]
+    ORR R0, R0, #(SW1+SW2)          ; R0 = R0|(SW1|SW2) (enable weak pull-up on PF0 and PF4)
+    STR R0, [R1]                    ; [R1] = R0
+    ; enable digital port
+    LDR R1, =GPIO_PORTF_DEN_R       ; R1 = &GPIO_PORTF_DEN_R
+    LDR R0, [R1]                    ; R0 = [R1]
+    ORR R0, R0, #(SW1+SW2)          ; R0 = R0|(SW1|SW2) (enable digital I/O on PF0 and PF4)
+    STR R0, [R1]                    ; [R1] = R0
+    ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ; TExaS voltmeter, scope runs on interrupts
     CPSIE  I                        ; Turn on TExaS voltmeter
-
+    
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ; R0 = argument to delay
-; R4 = Whether or not a button was pushed
 ; R5 = Current Duty Cycle
-; R6 = How much to add when the button is pressed
+; R6 = How much to add at the end of each tick
 ; R7 = 100% duty cycle
 main
     MOV  R4, #0                     ; Default value of button being pushed
-    LDR  R5, =LAB3_STEP_3_30_PERC   ; DUTY CYCLE : Default duty cycle 30%@2Hz
-    LDR  R6, =LAB3_STEP_3_20_PERC   ; DUTY CYCLE STEP : When button pressed, add this to R4
-    LDR  R7, =LAB3_STEP_3_100_PERC  ; DUTY CYCLE MOD : Max Duty Cycle 100%@2Hz
+    LDR  R5, =LAB3_STEP_5_1_PERC    ; DUTY CYCLE : Default duty cycle 1%@100Hz
+    LDR  R6, =LAB3_STEP_5_1_PERC    ; DUTY CYCLE STEP : When button pressed, add this to R4
+    LDR  R7, =LAB3_STEP_5_100_PERC  ; DUTY CYCLE MOD : Max Duty Cycle 100%@2Hz
 loop                                ; ~~~~~~MAIN ENGINE GOES HERE~~~~~~~~
+    LDR  R1, =GPIO_PORTF_DATA_R     ; get the address to the data register
+    LDR  R0, [R1]                   ; get the value of the data register
+    AND  R0, #0x10                  ; check if 4th bit is on
+    CMP  R0, #0                     ; if it is on
+    BNE  loop                       ; do nothing
+    
+    ADD  R5, R6                     ; Increment the duty cycle
+    CMP  R5, R7                     ; Check to see if the cycle has hit the upper bound
+    BEQ  twoscomplement             ; R6 := -R6
+    CMP  R5, #0                     ; Check to see if the cycle has hit the lower bound
+    BEQ  twoscomplement             ; R6 := -R6
+    B    goon                       ; Continue
+twoscomplement
+    MVN  R6, R6                     ; Bit-Wise Not
+    ADD  R6, R6, #1                 ; Add 1
+goon
     BL   flip_PE3                   ; Flip the LED on
     MOV  R0, R5                     ; Set delay to the duty cycle
     BL   delay                      ; Delay (LED on)
+    
     BL   flip_PE3                   ; Flip the LED (LED off)
     SUB  R0, R7, R5                 ; Set the delay to the duty cycle minus the total time
     BL   delay                      ; Delay (LED off)
@@ -86,48 +138,14 @@ loop                                ; ~~~~~~MAIN ENGINE GOES HERE~~~~~~~~
 
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ; R0 = How much to delay by
-; R1 = value of data register
-; R2 = address of data register
-; R3 = Unused
-; R4 = Whether or not the button on PE2 was pressed
-;   R4:0 is set while pressed
-;   R4:1 is set when pressed
-;   R4:0 is unset when released
-;   R4: 0b0000 -> not pressed
-;       0b0011 -> being pressed
-;       0b0010 -> was pressed
-; R5 = Current Duty Cycle
-; R6 = How much to add when the button is pressed
-; R7 = 100% duty cycle
-delay
-button_state
-    LDR  R2, =GPIO_PORTE_DATA_R     ; Get the address of the data register
-    LDR  R1, [R2]                   ; Get the value of the data register
-    AND  R1, R1, #0x4               ; Isolate PE2
-    CMP  R1, #0x4                   ; Is PE2 on?
-    BEQ  button_state_pressed       ; PE2 is pressed
-    AND  R4, R4, #0x2               ; PE2 not pressed -> turn off first bit in R4
-    B    button_state_done          ; done 
-button_state_pressed                
-    ORR  R4, R4, #0x3               ; turn on the first 2 bits
-button_state_done
-update_duty                         
-    AND R4, R4, #3                  ; Zero out all but the first 2 bits (not really neccessary is it?)
-    CMP R4, #2                      ; Is the value currently 2
-    BNE update_duty_done            ; If R4 != 2 then button not yet pressed or still being pressed
-increment
-    MOV R4, #0                      ; Clear R4
-    ADD  R5, R5, R6                 ; Add 20% to the duty cycle
-    CMP  R5, R7                     ; Is the duty cycle <= 100
-    BLE  increment_done             ; We done
-    SUB  R5, R5, R7                 ; duty cycle -= 100
-increment_done
-    MOV R0, #1                      ; Set R0 to no more delay
-update_duty_done                    
-    SUBS R0, R0, #5                ; Subtract 5 from R0 and set zero flag(1 cycle)(SUB does not set zero flag)
+delay                
+    SUBS R0, R0, #1                 ; Subtract 1 from R0 and set zero flag(1 cycle)(SUB does not set zero flag)
     BGT  delay                      ; Continue delay if R0 is not 0(3 cycles)
     BX   LR                         ; return (total 4 cycles)
-    
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+; R1 = address for the data register
+; 
 flip_PE3
     LDR  R1, =GPIO_PORTE_DATA_R     ; Grab the address for the DATA register for Port E
     LDR  R0, [R1]                   ; Grab the value currently held by the DATA register for Port E

@@ -2,7 +2,7 @@
 
 ## Step 1
 
-![Logical Analyzer](4FlipsPerSec.PNG)
+![Logical Analyzer](Step1Result.PNG)
 
 Setup 
 
@@ -109,6 +109,8 @@ loop
 
 ## Step 3 
 
+![Step 3 Logical Analyzer](Step3Result.PNG)
+
 I chose to make my loop increment the duty cycle by 20 percent each time PE2 was pressed and released and only acted on release. Also I chose to end the current delay when doing so, causing odd spikes, but I wanted to see results immidiately.
 
 To do this I had to rework my delay function quite a bit. One problem I ran into was calling subroutines inside subroutines. This made my delay function act irratically. This is something I need to ask the teacher about for future labs. I ended up inlining all my calls to subroutines and it got messy, especially since the structure is still there.
@@ -193,3 +195,4 @@ loop                                ; ~~~~~~MAIN ENGINE GOES HERE~~~~~~~~
 Although I was able to set up the circuit and the effect was essentially the same. The timing was off as expected. By how much I didn't measure.
 
 ## Step 5
+

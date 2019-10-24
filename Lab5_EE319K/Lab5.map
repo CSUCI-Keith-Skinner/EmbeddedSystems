@@ -1,0 +1,435 @@
+Component: ARM Compiler 5.06 update 6 (build 750) Tool: armlink [4d35ed]
+
+==============================================================================
+
+Section Cross References
+
+    startup.o(RESET) refers to startup.o(STACK) for StackMem
+    startup.o(RESET) refers to texas.o(i.Timer5A_Handler) for Timer5A_Handler
+    startup.o(RESET) refers to entry.o(.ARM.Collect$$$$00000000) for __main
+    systick.o(i.SysTick_Wait10ms) refers to systick.o(i.SysTick_Wait) for SysTick_Wait
+    systick.o(i.SysTick_Wait1ms) refers to systick.o(i.SysTick_Wait) for SysTick_Wait
+    texas.o(i.TExaS_Init) refers to texas.o(i.PLL_Init) for PLL_Init
+    texas.o(i.TExaS_Init) refers to texas.o(i.UART0_Init) for UART0_Init
+    texas.o(i.TExaS_Init) refers to texas.o(.data) for sendDataPt
+    texas.o(i.Timer5A_Handler) refers to texas.o(.data) for sendDataPt
+    steppermotorcontroller.o(i.main) refers to steppermotorcontroller.o(i.setup) for setup
+    steppermotorcontroller.o(i.main) refers to texas.o(i.TExaS_Init) for TExaS_Init
+    steppermotorcontroller.o(i.main) refers to systick.o(i.SysTick_Init) for SysTick_Init
+    steppermotorcontroller.o(i.main) refers to startup.o(.text) for EnableInterrupts
+    steppermotorcontroller.o(i.main) refers to memcpya.o(.text) for __aeabi_memcpy4
+    steppermotorcontroller.o(i.main) refers to systick.o(i.SysTick_Wait10ms) for SysTick_Wait10ms
+    steppermotorcontroller.o(i.main) refers to steppermotorcontroller.o(i.SendDataToLogicAnalyzer) for SendDataToLogicAnalyzer
+    steppermotorcontroller.o(i.main) refers to steppermotorcontroller.o(.data) for STATES
+    steppermotorcontroller.o(i.setup) refers to steppermotorcontroller.o(i.setup_ports) for setup_ports
+    steppermotorcontroller.o(i.setup) refers to steppermotorcontroller.o(i.setup_io) for setup_io
+    steppermotorcontroller.o(i.setup) refers to steppermotorcontroller.o(i.setup_en) for setup_en
+    steppermotorcontroller.o(i.setup_en) refers to steppermotorcontroller.o(i.setup_register) for setup_register
+    steppermotorcontroller.o(i.setup_io) refers to steppermotorcontroller.o(i.setup_register) for setup_register
+    steppermotorcontroller.o(i.setup_ports) refers to steppermotorcontroller.o(i.setup_register) for setup_register
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry10a.o(.ARM.Collect$$$$0000000D) for __rt_final_cpp
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry11a.o(.ARM.Collect$$$$0000000F) for __rt_final_exit
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry7b.o(.ARM.Collect$$$$00000008) for _main_clock
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry8b.o(.ARM.Collect$$$$0000000A) for _main_cpp_init
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry9a.o(.ARM.Collect$$$$0000000B) for _main_init
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry5.o(.ARM.Collect$$$$00000004) for _main_scatterload
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry2.o(.ARM.Collect$$$$00000001) for _main_stk
+    entry2.o(.ARM.Collect$$$$00000001) refers to entry2.o(.ARM.Collect$$$$00002712) for __lit__00000000
+    entry2.o(.ARM.Collect$$$$00002712) refers to startup.o(STACK) for __initial_sp
+    entry2.o(__vectab_stack_and_reset_area) refers to startup.o(STACK) for __initial_sp
+    entry2.o(__vectab_stack_and_reset_area) refers to entry.o(.ARM.Collect$$$$00000000) for __main
+    entry5.o(.ARM.Collect$$$$00000004) refers to init.o(.text) for __scatterload
+    entry9a.o(.ARM.Collect$$$$0000000B) refers to steppermotorcontroller.o(i.main) for main
+    entry9b.o(.ARM.Collect$$$$0000000C) refers to steppermotorcontroller.o(i.main) for main
+    init.o(.text) refers to entry5.o(.ARM.Collect$$$$00000004) for __main_after_scatterload
+
+
+==============================================================================
+
+Removing Unused input sections from the image.
+
+    Removing startup.o(HEAP), (0 bytes).
+    Removing systick.o(i.SysTick_Wait1ms), (28 bytes).
+    Removing texas.o(i.TExaS_Stop), (24 bytes).
+
+3 unused section(s) (total 52 bytes) removed from the image.
+
+==============================================================================
+
+Image Symbol Table
+
+    Local Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    RESET                                    0x00000000   Section      644  startup.o(RESET)
+    ../clib/../cmprslib/zerorunl2.c          0x00000000   Number         0  __dczerorl2.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
+    StepperMotorController.c                 0x00000000   Number         0  steppermotorcontroller.o ABSOLUTE
+    SysTick.c                                0x00000000   Number         0  systick.o ABSOLUTE
+    TExaS.c                                  0x00000000   Number         0  texas.o ABSOLUTE
+    dc.s                                     0x00000000   Number         0  dc.o ABSOLUTE
+    handlers.s                               0x00000000   Number         0  handlers.o ABSOLUTE
+    init.s                                   0x00000000   Number         0  init.o ABSOLUTE
+    startup.s                                0x00000000   Number         0  startup.o ABSOLUTE
+    .ARM.Collect$$$$00000000                 0x00000284   Section        0  entry.o(.ARM.Collect$$$$00000000)
+    .ARM.Collect$$$$00000001                 0x00000284   Section        4  entry2.o(.ARM.Collect$$$$00000001)
+    .ARM.Collect$$$$00000004                 0x00000288   Section        4  entry5.o(.ARM.Collect$$$$00000004)
+    .ARM.Collect$$$$00000008                 0x0000028c   Section        0  entry7b.o(.ARM.Collect$$$$00000008)
+    .ARM.Collect$$$$0000000A                 0x0000028c   Section        0  entry8b.o(.ARM.Collect$$$$0000000A)
+    .ARM.Collect$$$$0000000B                 0x0000028c   Section        8  entry9a.o(.ARM.Collect$$$$0000000B)
+    .ARM.Collect$$$$0000000D                 0x00000294   Section        0  entry10a.o(.ARM.Collect$$$$0000000D)
+    .ARM.Collect$$$$0000000F                 0x00000294   Section        0  entry11a.o(.ARM.Collect$$$$0000000F)
+    .ARM.Collect$$$$00002712                 0x00000294   Section        4  entry2.o(.ARM.Collect$$$$00002712)
+    __lit__00000000                          0x00000294   Data           4  entry2.o(.ARM.Collect$$$$00002712)
+    .text                                    0x00000298   Section       28  startup.o(.text)
+    .text                                    0x000002b4   Section        0  memcpya.o(.text)
+    .text                                    0x000002d8   Section       36  init.o(.text)
+    .text                                    0x000002fc   Section        0  __dczerorl2.o(.text)
+    i.PLL_Init                               0x00000354   Section        0  texas.o(i.PLL_Init)
+    i.SendDataToLogicAnalyzer                0x000003d0   Section        0  steppermotorcontroller.o(i.SendDataToLogicAnalyzer)
+    i.SysTick_Init                           0x000003f0   Section        0  systick.o(i.SysTick_Init)
+    i.SysTick_Wait                           0x00000408   Section        0  systick.o(i.SysTick_Wait)
+    i.SysTick_Wait10ms                       0x00000428   Section        0  systick.o(i.SysTick_Wait10ms)
+    i.TExaS_Init                             0x00000444   Section        0  texas.o(i.TExaS_Init)
+    i.Timer5A_Handler                        0x000004b0   Section        0  texas.o(i.Timer5A_Handler)
+    i.UART0_Init                             0x000004c8   Section        0  texas.o(i.UART0_Init)
+    i.__scatterload_copy                     0x00000574   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x00000582   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x00000584   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i.main                                   0x00000594   Section        0  steppermotorcontroller.o(i.main)
+    i.setup                                  0x000005fc   Section        0  steppermotorcontroller.o(i.setup)
+    i.setup_en                               0x0000065c   Section        0  steppermotorcontroller.o(i.setup_en)
+    i.setup_io                               0x00000670   Section        0  steppermotorcontroller.o(i.setup_io)
+    i.setup_ports                            0x00000684   Section        0  steppermotorcontroller.o(i.setup_ports)
+    i.setup_register                         0x000006a0   Section        0  steppermotorcontroller.o(i.setup_register)
+    .data                                    0x20000000   Section        8  texas.o(.data)
+    .data                                    0x20000008   Section      984  steppermotorcontroller.o(.data)
+    STACK                                    0x200003e0   Section     1024  startup.o(STACK)
+    StackMem                                 0x200003e0   Data           0  startup.o(STACK)
+
+    Global Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    BuildAttributes$$THM_ISAv4$E$P$D$K$B$S$7EM$PE$A:L22UL41UL21$X:L11$S22US41US21$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$EBA8$MICROLIB$REQ8$PRES8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
+    __ARM_use_no_argv                        0x00000000   Number         0  steppermotorcontroller.o ABSOLUTE
+    __Vectors                                0x00000000   Data           0  startup.o(RESET)
+    __cpp_initialize__aeabi_                  - Undefined Weak Reference
+    __cxa_finalize                            - Undefined Weak Reference
+    _clock_init                               - Undefined Weak Reference
+    _microlib_exit                            - Undefined Weak Reference
+    Reset_Handler                            0x0000026d   Thumb Code     0  startup.o(RESET)
+    NMI_Handler                              0x00000271   Thumb Code     2  startup.o(RESET)
+    HardFault_Handler                        0x00000273   Thumb Code     2  startup.o(RESET)
+    MemManage_Handler                        0x00000275   Thumb Code     2  startup.o(RESET)
+    BusFault_Handler                         0x00000277   Thumb Code     2  startup.o(RESET)
+    UsageFault_Handler                       0x00000279   Thumb Code     2  startup.o(RESET)
+    SVC_Handler                              0x0000027b   Thumb Code     2  startup.o(RESET)
+    DebugMon_Handler                         0x0000027d   Thumb Code     2  startup.o(RESET)
+    PendSV_Handler                           0x0000027f   Thumb Code     2  startup.o(RESET)
+    SysTick_Handler                          0x00000281   Thumb Code     2  startup.o(RESET)
+    ADC0Seq0_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC0Seq1_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC0Seq2_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC0Seq3_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC1Seq0_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC1Seq1_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC1Seq2_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC1Seq3_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    CAN0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    CAN1_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    CAN2_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    Comp0_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    Comp1_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    Comp2_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    Ethernet_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ExtBus_Handler                           0x00000283   Thumb Code     0  startup.o(RESET)
+    FPU_Handler                              0x00000283   Thumb Code     0  startup.o(RESET)
+    Fan0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    FlashCtl_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortA_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortB_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortC_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortD_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortE_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortF_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortG_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortH_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortJ_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortK_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortL_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortM_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortN_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP1_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP2_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP3_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP4_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP5_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP6_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP7_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ1_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ2_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ3_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ4_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ5_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ6_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ7_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortR_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortS_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    Hibernate_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C1_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C2_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C3_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C4_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C5_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2S0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    LPC0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    PECI0_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Fault_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Generator0_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Generator1_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Generator2_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Generator3_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Fault_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Generator0_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Generator1_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Generator2_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Generator3_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    Quadrature0_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    Quadrature1_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    Quadrature2_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    SSI0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    SSI1_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    SSI2_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    SSI3_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    SysCtl_Handler                           0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer0A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer0B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer1A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer1B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer2A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer2B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer3A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer3B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer4A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer4B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer5B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    UART0_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART1_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART2_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART3_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART4_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART5_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART6_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART7_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    USB0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    WDT_Handler                              0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer0A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer0B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer1A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer1B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer2A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer2B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer3A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer3B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer4A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer4B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer5A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer5B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    uDMA_Error                               0x00000283   Thumb Code     0  startup.o(RESET)
+    uDMA_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    __main                                   0x00000285   Thumb Code     0  entry.o(.ARM.Collect$$$$00000000)
+    _main_stk                                0x00000285   Thumb Code     0  entry2.o(.ARM.Collect$$$$00000001)
+    _main_scatterload                        0x00000289   Thumb Code     0  entry5.o(.ARM.Collect$$$$00000004)
+    __main_after_scatterload                 0x0000028d   Thumb Code     0  entry5.o(.ARM.Collect$$$$00000004)
+    _main_clock                              0x0000028d   Thumb Code     0  entry7b.o(.ARM.Collect$$$$00000008)
+    _main_cpp_init                           0x0000028d   Thumb Code     0  entry8b.o(.ARM.Collect$$$$0000000A)
+    _main_init                               0x0000028d   Thumb Code     0  entry9a.o(.ARM.Collect$$$$0000000B)
+    __rt_final_cpp                           0x00000295   Thumb Code     0  entry10a.o(.ARM.Collect$$$$0000000D)
+    __rt_final_exit                          0x00000295   Thumb Code     0  entry11a.o(.ARM.Collect$$$$0000000F)
+    DisableInterrupts                        0x00000299   Thumb Code     0  startup.o(.text)
+    EnableInterrupts                         0x0000029d   Thumb Code     0  startup.o(.text)
+    StartCritical                            0x000002a1   Thumb Code     0  startup.o(.text)
+    EndCritical                              0x000002a9   Thumb Code     0  startup.o(.text)
+    WaitForInterrupt                         0x000002af   Thumb Code     0  startup.o(.text)
+    __aeabi_memcpy                           0x000002b5   Thumb Code    36  memcpya.o(.text)
+    __aeabi_memcpy4                          0x000002b5   Thumb Code     0  memcpya.o(.text)
+    __aeabi_memcpy8                          0x000002b5   Thumb Code     0  memcpya.o(.text)
+    __scatterload                            0x000002d9   Thumb Code    28  init.o(.text)
+    __scatterload_rt2                        0x000002d9   Thumb Code     0  init.o(.text)
+    __decompress                             0x000002fd   Thumb Code     0  __dczerorl2.o(.text)
+    __decompress1                            0x000002fd   Thumb Code    86  __dczerorl2.o(.text)
+    PLL_Init                                 0x00000355   Thumb Code   120  texas.o(i.PLL_Init)
+    SendDataToLogicAnalyzer                  0x000003d1   Thumb Code    24  steppermotorcontroller.o(i.SendDataToLogicAnalyzer)
+    SysTick_Init                             0x000003f1   Thumb Code    24  systick.o(i.SysTick_Init)
+    SysTick_Wait                             0x00000409   Thumb Code    32  systick.o(i.SysTick_Wait)
+    SysTick_Wait10ms                         0x00000429   Thumb Code    22  systick.o(i.SysTick_Wait10ms)
+    TExaS_Init                               0x00000445   Thumb Code    88  texas.o(i.TExaS_Init)
+    Timer5A_Handler                          0x000004b1   Thumb Code    16  texas.o(i.Timer5A_Handler)
+    UART0_Init                               0x000004c9   Thumb Code   152  texas.o(i.UART0_Init)
+    __scatterload_copy                       0x00000575   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x00000583   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x00000585   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    main                                     0x00000595   Thumb Code    90  steppermotorcontroller.o(i.main)
+    setup                                    0x000005fd   Thumb Code    72  steppermotorcontroller.o(i.setup)
+    setup_en                                 0x0000065d   Thumb Code    20  steppermotorcontroller.o(i.setup_en)
+    setup_io                                 0x00000671   Thumb Code    20  steppermotorcontroller.o(i.setup_io)
+    setup_ports                              0x00000685   Thumb Code    22  steppermotorcontroller.o(i.setup_ports)
+    setup_register                           0x000006a1   Thumb Code    14  steppermotorcontroller.o(i.setup_register)
+    Region$$Table$$Base                      0x000006b0   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x000006d0   Number         0  anon$$obj.o(Region$$Table)
+    PortDataAddr                             0x20000000   Data           4  texas.o(.data)
+    sendDataPt                               0x20000004   Data           4  texas.o(.data)
+    STATES                                   0x20000008   Data         984  steppermotorcontroller.o(.data)
+    __initial_sp                             0x200007e0   Data           0  startup.o(STACK)
+
+
+
+==============================================================================
+
+Memory Map of the image
+
+  Image Entry point : 0x0000026d
+
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000ab0, Max: 0xffffffff, ABSOLUTE, COMPRESSED[0x000007f4])
+
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000006d0, Max: 0xffffffff, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x00000000   0x00000000   0x00000284   Code   RO            3  * RESET               startup.o
+    0x00000284   0x00000284   0x00000000   Code   RO          145  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x00000284   0x00000284   0x00000004   Code   RO          152    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x00000288   0x00000288   0x00000004   Code   RO          155    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x0000028c   0x0000028c   0x00000000   Code   RO          157    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x0000028c   0x0000028c   0x00000000   Code   RO          159    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x0000028c   0x0000028c   0x00000008   Code   RO          160    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x00000294   0x00000294   0x00000000   Code   RO          162    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x00000294   0x00000294   0x00000000   Code   RO          164    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x00000294   0x00000294   0x00000004   Code   RO          153    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x00000298   0x00000298   0x0000001c   Code   RO            4    .text               startup.o
+    0x000002b4   0x000002b4   0x00000024   Code   RO          148    .text               mc_w.l(memcpya.o)
+    0x000002d8   0x000002d8   0x00000024   Code   RO          166    .text               mc_w.l(init.o)
+    0x000002fc   0x000002fc   0x00000056   Code   RO          176    .text               mc_w.l(__dczerorl2.o)
+    0x00000352   0x00000352   0x00000002   PAD
+    0x00000354   0x00000354   0x0000007c   Code   RO           49    i.PLL_Init          texas.o
+    0x000003d0   0x000003d0   0x00000020   Code   RO           88    i.SendDataToLogicAnalyzer  steppermotorcontroller.o
+    0x000003f0   0x000003f0   0x00000018   Code   RO           12    i.SysTick_Init      systick.o
+    0x00000408   0x00000408   0x00000020   Code   RO           13    i.SysTick_Wait      systick.o
+    0x00000428   0x00000428   0x0000001c   Code   RO           14    i.SysTick_Wait10ms  systick.o
+    0x00000444   0x00000444   0x0000006c   Code   RO           50    i.TExaS_Init        texas.o
+    0x000004b0   0x000004b0   0x00000018   Code   RO           52    i.Timer5A_Handler   texas.o
+    0x000004c8   0x000004c8   0x000000ac   Code   RO           53    i.UART0_Init        texas.o
+    0x00000574   0x00000574   0x0000000e   Code   RO          170    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x00000582   0x00000582   0x00000002   Code   RO          171    i.__scatterload_null  mc_w.l(handlers.o)
+    0x00000584   0x00000584   0x0000000e   Code   RO          172    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x00000592   0x00000592   0x00000002   PAD
+    0x00000594   0x00000594   0x00000068   Code   RO           89    i.main              steppermotorcontroller.o
+    0x000005fc   0x000005fc   0x00000060   Code   RO           90    i.setup             steppermotorcontroller.o
+    0x0000065c   0x0000065c   0x00000014   Code   RO           91    i.setup_en          steppermotorcontroller.o
+    0x00000670   0x00000670   0x00000014   Code   RO           92    i.setup_io          steppermotorcontroller.o
+    0x00000684   0x00000684   0x0000001c   Code   RO           93    i.setup_ports       steppermotorcontroller.o
+    0x000006a0   0x000006a0   0x0000000e   Code   RO           94    i.setup_register    steppermotorcontroller.o
+    0x000006ae   0x000006ae   0x00000002   PAD
+    0x000006b0   0x000006b0   0x00000020   Data   RO          168    Region$$Table       anon$$obj.o
+
+
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000006d0, Size: 0x000003e0, Max: 0xffffffff, ABSOLUTE, COMPRESSED[0x00000124])
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x20000000   COMPRESSED   0x00000008   Data   RW           54    .data               texas.o
+    0x20000008   COMPRESSED   0x000003d8   Data   RW           95    .data               steppermotorcontroller.o
+
+
+    Execution Region ER_ZI (Exec base: 0x200003e0, Load base: 0x000007f4, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x200003e0        -       0x00000400   Zero   RW            1    STACK               startup.o
+
+
+==============================================================================
+
+Image component sizes
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
+
+       672        622          0          0       1024        956   startup.o
+       314         52          0        984          0       4827   steppermotorcontroller.o
+        84          6          0          0          0       6365   systick.o
+       428         52          0          8          0       6457   texas.o
+
+    ----------------------------------------------------------------------
+      1500        732         32        992       1024      18605   Object Totals
+         0          0         32          0          0          0   (incl. Generated)
+         2          0          0          0          0          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Member Name
+
+        86          0          0          0          0          0   __dczerorl2.o
+         0          0          0          0          0          0   entry.o
+         0          0          0          0          0          0   entry10a.o
+         0          0          0          0          0          0   entry11a.o
+         8          4          0          0          0          0   entry2.o
+         4          0          0          0          0          0   entry5.o
+         0          0          0          0          0          0   entry7b.o
+         0          0          0          0          0          0   entry8b.o
+         8          4          0          0          0          0   entry9a.o
+        30          0          0          0          0          0   handlers.o
+        36          8          0          0          0         68   init.o
+        36          0          0          0          0         68   memcpya.o
+
+    ----------------------------------------------------------------------
+       212         16          0          0          0        136   Library Totals
+         4          0          0          0          0          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
+
+       208         16          0          0          0        136   mc_w.l
+
+    ----------------------------------------------------------------------
+       212         16          0          0          0        136   Library Totals
+
+    ----------------------------------------------------------------------
+
+==============================================================================
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
+
+      1712        748         32        992       1024      18401   Grand Totals
+      1712        748         32        292       1024      18401   ELF Image Totals (compressed)
+      1712        748         32        292          0          0   ROM Totals
+
+==============================================================================
+
+    Total RO  Size (Code + RO Data)                 1744 (   1.70kB)
+    Total RW  Size (RW Data + ZI Data)              2016 (   1.97kB)
+    Total ROM Size (Code + RO Data + RW Data)       2036 (   1.99kB)
+
+==============================================================================
+

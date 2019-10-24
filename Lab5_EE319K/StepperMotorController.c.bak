@@ -1,0 +1,175 @@
+// StepperMotorController.c starter file EE319K Lab 5
+// Runs on TM4C123
+// Finite state machine to operate a stepper motor.  
+// Jonathan Valvano
+// January 18, 2019
+
+// Hardware connections (External: two input buttons and four outputs to stepper motor)
+//  PA5 is Wash input  (1 means pressed, 0 means not pressed)
+//  PA4 is Wiper input  (1 means pressed, 0 means not pressed)
+//  PE5 is Water pump output (toggle means washing)
+//  PE4-0 are stepper motor outputs 
+//  PF1 PF2 or PF3 control the LED on Launchpad used as a heartbeat
+//  PB6 is LED output (1 activates external LED on protoboard)
+
+#include "SysTick.h"
+#include "TExaS.h"
+#include <stdint.h>
+#include "../inc/tm4c123gh6pm.h"
+
+//INPUTS
+#define CLEAN 1
+#define WIPER 0
+
+//OUTPUTS
+#define MOTOR 2
+#define PUMP  3
+
+enum StateIndex
+{
+    NOTHING,
+    W001, W002, W004, W008, W016,
+    W101, W102, W104, W108, W116,
+    W216, W208, W204, W202, W201,
+    W316, W308, W304, W302, W301,
+    C001, C002, C004, C008, C016,
+    C101, C102, C104, C108, C116,
+    C216, C208, C204, C202, C201,
+    C316, C308, C304, C302, C301,
+    NUM_STATES
+};
+
+typedef struct state_tag {
+    uint32_t wipe;
+    uint32_t clean;
+    uint32_t next[4];
+} State;
+
+State STATES[NUM_STATES] =
+{
+    // NOTHING
+    { 0, 0, { NOTHING, C001, W001, C001 } },
+
+    // W0XX
+    { 1, 0, { W002, C002, W002, C002 } },
+    { 2, 0, { W004, C004, W004, C004 } },
+    { 4, 0, { W008, C008, W008, C008 } },
+    { 8, 0, { W016, C016, W016, C016 } },
+    { 16, 0, { W101, C101, W101, C101 } },
+
+    // W1XX
+    { 1, 0, { W102, C102, W102, C102 } },
+    { 2, 0, { W104, C104, W104, C104 } },
+    { 4, 0, { W108, C108, W108, C108 } },
+    { 8, 0, { W116, C116, W116, C116 } },
+    { 16, 0, { W216, C216, W216, C216 } },
+
+    // W2XX
+    { 16, 0, { W208, C208, W208, C208 } },
+    { 8, 0, { W204, C204, W204, C204 } },
+    { 4, 0, { W202, C202, W202, C202 } },
+    { 2, 0, { W201, C201, W201, C201 } },
+    { 1, 0, { W316, C316, W316, C316 } },
+
+    // W3XX
+    { 16, 0, { W308, C308, W308, C308 } },
+    { 8, 0, { W304, C304, W304, C304 } },
+    { 4, 0, { W302, C302, W302, C302 } },
+    { 2, 0, { W301, C301, W301, C301 } },
+    { 1, 0, { NOTHING, C001, W001, C001 } },
+
+    // C0XX
+    { 1, 1, { W002, C002, W002, C002 } },
+    { 2, 1, { W004, C004, W004, C004 } },
+    { 4, 1, { W008, C008, W008, C008 } },
+    { 8, 1, { W016, C016, W016, C016 } },
+    { 16, 1, { W101, C101, W101, C101 } },
+
+    // C1XX
+    { 1, 1, { W102, C102, W102, C102 } },
+    { 2, 1, { W104, C104, W104, C104 } },
+    { 4, 1, { W108, C108, W108, C108 } },
+    { 8, 1, { W116, C116, W116, C116 } },
+    { 16, 1, { W216, C216, W216, C216 } },
+
+    // C2XX
+    { 16, 1, { W208, C208, W208, C208 } },
+    { 8, 1, { W204, C204, W204, C204 } },
+    { 4, 1, { W202, C202, W202, C202 } },
+    { 2, 1, { W201, C201, W201, C201 } },
+    { 1, 1, { W316, C316, W316, C316 } },
+
+    // C3XX
+    { 16, 1, { W308, C308, W308, C308 } },
+    { 8, 1, { W304, C304, W304, C304 } },
+    { 4, 1, { W302, C302, W302, C302 } },
+    { 2, 1, { W301, C301, W301, C301 } },
+    { 1, 1, { NOTHING, C001, W001, C001 } }
+};
+
+void EnableInterrupts(void);
+// edit the following only if you need to move pins from PA4, PE3-0      
+// logic analyzer on the real board
+#define PA4       (*((volatile unsigned long *)0x40004040))
+#define PE50      (*((volatile unsigned long *)0x400240FC))
+
+void SendDataToLogicAnalyzer(void){
+  UART0_DR_R = 0x80|(PA4<<2)|PE50;
+}
+
+void setup_register(volatile uint32_t * reg, uint32_t unset, uint32_t set)
+{
+    uint32_t val = *reg;
+    val &= ~(unset);
+    val |= set;
+    *reg = val;
+}
+
+void setup_io(volatile uint32_t * reg, uint32_t inputs, uint32_t outputs)
+{
+    setup_register(reg, inputs, outputs);
+}
+
+void setup_en(volatile uint32_t * reg, uint32_t disable, uint32_t enable)
+{
+    setup_register(reg, disable, enable);
+}
+
+void setup_ports(uint32_t disable, uint32_t enable)
+{
+    setup_register(&SYSCTL_RCGCGPIO_R, disable, enable);
+    __asm__("nop");
+    __asm__("nop");
+}
+
+void setup(void) {
+    setup_ports(0, (1<<0)|(1<<4)|(1<<5));
+    
+    setup_io(&GPIO_PORTA_DIR_R, (1 << 4) | (1 << 5), 0);
+    setup_io(&GPIO_PORTE_DIR_R, 0, (1<<0)|(1<<1)|(1<<2)|(1<<3)|(1<<4)|(1<<5));
+    setup_io(&GPIO_PORTF_DIR_R, 0, (1<<1));
+    
+    setup_en(&GPIO_PORTA_DEN_R, 0, (1<<4)|(1<<5));
+    //Enable Pins PE0-5
+    setup_en(&GPIO_PORTE_DEN_R, 0, (1<<0)|(1<<1)|(1<<2)|(1<<3)|(1<<4)|(1<<5));
+    //Enable Pin PF1
+    setup_en(&GPIO_PORTF_DEN_R, 0, (1<<1));
+}
+
+int main(void){
+    setup();                                //Setup ports
+    TExaS_Init(&SendDataToLogicAnalyzer);   // activate logic analyzer and set system clock to 80 MHz
+    SysTick_Init();                         //Setup SysTick 
+    
+    EnableInterrupts();
+    State state = STATES[NOTHING];
+    while(1) {
+        GPIO_PORTE_DATA_R = state.wipe + (state.clean << 5); //output
+        SysTick_Wait10ms(5); // wait
+        uint32_t input = GPIO_PORTA_DATA_R; // input
+        state = STATES[state.next[(input >> 4) & 3]]; //next
+    }
+}
+
+
+

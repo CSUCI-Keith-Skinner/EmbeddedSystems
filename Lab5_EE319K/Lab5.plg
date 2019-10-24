@@ -1,0 +1,17 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\ry2333\Google Drive\EE319K\LabSolutions\Lab5_EE319K-Jons-sol\Lab5.uvproj
+Project File Date:  02/28/2018
+
+<h2>Output:</h2>
+Rebuild target 'Lab5'
+assembling startup.s...
+compiling SysTick.c...
+compiling TExaS.c...
+compiling PointerTrafficLight.c...
+linking...
+Program Size: Code=4032 RO-data=14780 RW-data=76 ZI-data=1756  
+".\Lab5.axf" - 0 Errors, 0 Warning(s).
